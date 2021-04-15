@@ -1,22 +1,19 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class AppDriver {
 
     public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("C:\\Users\\rrams\\IdeaProjects\\HeapsAndHashTableAssignment\\input.txt");
+        File file = new File("C:\\Users\\Daniel\\HeapsAndHashTableAssignment\\input.txt");
         Scanner scanner = new Scanner(file);
         HashMap<String, String[]> food = new HashMap<String, String[]>();
         int size = Integer.parseInt(scanner.nextLine());
 
         buildHashtable(scanner, food);
+        System.out.println(maxGuess(food, size));
 
-        System.out.println("Testing the is Present method: ");
-        System.out.println(isPresent(food, "pizza", "awesome"));
+
 
 
 
@@ -45,6 +42,42 @@ public class AppDriver {
         }
         else
             return false;
+    }
+
+    public static int maxGuess(HashMap<String, String[]> table, int size){
+        int count = 0;
+        ArrayList<String> viableSet = new ArrayList<String>();
+        viableSet.add("cookies");
+        viableSet.add("pizza");
+        viableSet.add("chips");
+        viableSet.add("ramen");
+
+        PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
+
+        Iterator<Map.Entry<String, String[]>> iterator = table.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String, String[]> entry = iterator.next();
+            String food = iterator.next().getKey();
+            String[] trait = entry.getValue();
+            for(int i = 0; i < trait.length; i++){
+                if(!isPresent(table, food, trait[i])){
+                    viableSet.remove(food);
+                    if(viableSet.size() == 1) break;
+                }
+                else{
+                    // do stuff
+                }
+            }
+        }
+
+        return count;
+
+
+
+
+
+
+
 
     }
 
