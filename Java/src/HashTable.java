@@ -9,4 +9,8 @@ public class HashTable {
     private int hashFunction(int value){
         return (value % 10);
     }
+
+    public void insert(int value, String data){
+        buckets[hashFunction(value)] = data;
+    }
 }
