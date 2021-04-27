@@ -1,21 +1,46 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class AppDriver {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("C:\\Users\\Daniel\\HeapsAndHashTableAssignment\\input.txt");
-        Scanner scanner = new Scanner(file);
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        // Grab standard input:
+        //BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+        //File file = new File("C:\\Users\\rrams\\IdeaProjects\\HeapsAndHashTableAssignment\\input.txt");
+        //Scanner scanner = new Scanner(file);
+
+        // Declare variables and data structures:
         HashMap<String, String[]> food = new HashMap<String, String[]>();
-        int size = Integer.parseInt(scanner.nextLine());
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(Collections.reverseOrder());
+        System.out.println("Enter the input:");
+        scanner.nextLine();
+        String[] input = new String[scanner.nextInt()];
 
+        for (int i = 0; i < input.length; i++) {
+            input[i] = scanner.nextLine();
+        }
+
+        // Build 2 Hashtables, one is a temporary one used to create combinations for finding intersections
         buildHashtable(scanner, food);
-        System.out.println(maxGuess(food, size));
+        HashMap<String, String[]> tempFood = new HashMap<>(food);
+
+        // Create combinations of entries to find intersections. Place each number of intersections
+        // into a max heap. The highest number of intersections plus 1 will equal # of max guesses
+        for(Map.Entry<String, String[]> firstEntry : food.entrySet()){
+            for(Map.Entry<String, String[]> secondEntry : tempFood.entrySet()){
+                if(firstEntry.getKey() != secondEntry.getKey()){
+                    maxHeap.add(findIntersections(firstEntry.getValue(), secondEntry.getValue()));
+                }
+            }
+            tempFood.remove(firstEntry.getKey());
+        }
+
+        System.out.println("The maximum amount of guesses for this input is : " + (maxHeap.peek()+1) );
 
 
-
-
+        //System.out.println("\n\nThe maximum amount of guesses for this input is : " + (maxHeap.peek()+1));
 
     }
 
@@ -35,50 +60,52 @@ public class AppDriver {
         }
     }
 
-    public static boolean isPresent(HashMap<String, String[]> table, String food, String choice){
-        String[] options = table.get(food);
-        if(Arrays.asList(options).contains(choice)){
-            return true;
-        }
-        else
-            return false;
-    }
+    // Source code for this module came from this video:
+    // https://www.youtube.com/watch?v=R-T2XF0Cc2w&ab_channel=ProgrammingTutorials
+    public static int findIntersections(String[] arr1, String[] arr2){
+        Qsort(arr1, 0, arr1.length - 1);
+        Qsort(arr2, 0, arr2.length - 1);
 
-    public static int maxGuess(HashMap<String, String[]> table, int size){
+        int i = 0;
+        int j = 0;
         int count = 0;
-        ArrayList<String> viableSet = new ArrayList<String>();
-        viableSet.add("cookies");
-        viableSet.add("pizza");
-        viableSet.add("chips");
-        viableSet.add("ramen");
-
-        PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
-
-        Iterator<Map.Entry<String, String[]>> iterator = table.entrySet().iterator();
-        while(iterator.hasNext()){
-            Map.Entry<String, String[]> entry = iterator.next();
-            String food = iterator.next().getKey();
-            String[] trait = entry.getValue();
-            for(int i = 0; i < trait.length; i++){
-                if(!isPresent(table, food, trait[i])){
-                    viableSet.remove(food);
-                    if(viableSet.size() == 1) break;
-                }
-                else{
-                    // do stuff
-                }
+        while(i < arr1.length && j < arr2.length){
+            if(arr1[i].compareTo(arr2[j]) == 0){
+                i++;
+                j++;
+                count++;
+            } else if(arr1[i].compareTo(arr2[j]) > 0){
+                j++;
+            } else{
+                i++;
             }
         }
 
         return count;
+    }
 
+    public static void Qsort(String[] table, int start, int finish){
+        int left = start;
+        int right = finish;
+        String pivot = table[(start+finish)/2];
 
-
-
-
-
-
+        while(left < right){
+            while((table[left].compareTo(pivot)) < 0) left++;
+            while((table[right].compareTo(pivot)) > 0) right--;
+            if(left <= right){
+                String temp = table[left];
+                table[left] = table[right];
+                table[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        if(start < right) Qsort(table, start, right);
+        if(left < finish) Qsort(table, left, finish);
 
     }
+
+
+
 
 }
