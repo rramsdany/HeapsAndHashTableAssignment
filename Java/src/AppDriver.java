@@ -3,24 +3,18 @@ import java.util.*;
 
 public class AppDriver {
 
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws IOException {
-        // Grab standard input:
-        //BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-        //File file = new File("C:\\Users\\rrams\\IdeaProjects\\HeapsAndHashTableAssignment\\input.txt");
-        //Scanner scanner = new Scanner(file);
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        // Grab standard input from file:
+        // To run, update the location of the file with the text
+        File file = new File("C:\\Users\\Daniel\\HeapsAndHashTableAssignment\\input.txt");
+        Scanner scanner = new Scanner(file);
+        int size = Integer.parseInt(scanner.nextLine());
 
         // Declare variables and data structures:
         HashMap<String, String[]> food = new HashMap<String, String[]>();
         PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(Collections.reverseOrder());
-        System.out.println("Enter the input:");
-        scanner.nextLine();
-        String[] input = new String[scanner.nextInt()];
 
-        for (int i = 0; i < input.length; i++) {
-            input[i] = scanner.nextLine();
-        }
+
 
         // Build 2 Hashtables, one is a temporary one used to create combinations for finding intersections
         buildHashtable(scanner, food);
