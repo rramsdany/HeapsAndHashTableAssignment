@@ -1,3 +1,5 @@
+package Question3;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,8 +15,6 @@ public class AppDriver {
         // Declare variables and data structures:
         HashMap<String, String[]> food = new HashMap<String, String[]>();
         PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(Collections.reverseOrder());
-
-
 
         // Build 2 Hashtables, one is a temporary one used to create combinations for finding intersections
         buildHashtable(scanner, food);
@@ -32,10 +32,6 @@ public class AppDriver {
         }
 
         System.out.println("The maximum amount of guesses for this input is : " + (maxHeap.peek()+1) );
-
-
-        //System.out.println("\n\nThe maximum amount of guesses for this input is : " + (maxHeap.peek()+1));
-
     }
 
     public static void buildHashtable(Scanner scanner, HashMap<String, String[]> table){
