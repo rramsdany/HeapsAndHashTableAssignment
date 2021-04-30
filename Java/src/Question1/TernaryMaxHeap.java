@@ -51,6 +51,60 @@ public class TernaryMaxHeap {
         }
     }
 
+    private void perlocateDown(){
+        int index = 0;
+        while(hasLeftChild(index)){
+            int newIndex = getLeftChildIndex(index);
+            // Find the largest between left, middle, and right children
+            if(hasMiddleChild(index) && hasRightChild(index)){
+                if(getMiddleChild(index) > getRightChild(index))
+                    newIndex = getMiddleChildIndex(index);
+            }
+            // Find the largest between left and middle children
+            else if ( hasMiddleChild(index) && !hasRightChild(index) ){
+                if( getMiddleChild(index) > (getLeftChild(index)))
+                    newIndex = getMiddleChildIndex(index);
+            }
+
+            if(items[index] > items[newIndex])
+                break;
+
+            else
+                swap(index, newIndex);
+
+            index = newIndex;
+        }
+    }
+
+    // Class Interface:
+    public int poll(){
+        if(size == 0) throw new IllegalStateException();
+        int item = items[0];
+        items[0] = items[size - 1];
+        size--;
+        perlocateDown();
+        return item;
+    }
+
+
+
+    public void add(int item){
+        ensureExtraCapacity();
+        items[size] = item;
+        size++;
+        perlocateUp();
+    }
+
+    public void iterator_initialize(){
+        index = 0;
+    }
+    public boolean iterator_hasNext(){
+        return index <= size - 1;
+    }
+    public int iterator_getNext(){
+        return items[index++];
+    }
+
 
 
 }
