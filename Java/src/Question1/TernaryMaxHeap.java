@@ -76,6 +76,24 @@ public class TernaryMaxHeap {
         }
     }
 
+
+    private int binarySearch(int table[], int start, int finish, int searchKey){
+        int mid = (start+finish/2);
+        if(finish-start+1 > 0){
+            if(table[mid] == searchKey){
+                return mid;
+            }
+            else{
+                if(searchKey < table[mid])
+                    return binarySearch(table, start, mid-1, searchKey);
+                else
+                    return binarySearch(table, mid+1, finish, searchKey);
+            }
+        }
+        else
+            return -1;
+    }
+
     // Class Interface:
     public int poll(){
         if(size == 0) throw new IllegalStateException();
@@ -86,7 +104,20 @@ public class TernaryMaxHeap {
         return item;
     }
 
+    public void clear(){
+        items = null;
+    }
 
+    public boolean contains(int item){
+        if(binarySearch(items, 0, items.length - 1, item) == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public int peek(){
+        return items[0];
+    }
 
     public void add(int item){
         ensureExtraCapacity();
