@@ -4,10 +4,19 @@ import java.util.Arrays;
 
 public class TernaryMaxHeap {
     // Declare all private data
-    private int[] items;
     private int capacity = 10;
     private int size = 0;
     private int index;
+    private int[] items = new int[capacity];
+
+    //Constructors
+    public TernaryMaxHeap(){}
+    public TernaryMaxHeap(TernaryMaxHeap t){
+        items = t.items;
+        capacity = t.capacity;
+        size = t.size;
+        index = t.index;
+    }
 
     // Setters and Getter Methods taken from Hackerrank's video explanation:
     // https://www.youtube.com/watch?v=t0Cq6tVNRBA&ab_channel=HackerRank
@@ -29,6 +38,10 @@ public class TernaryMaxHeap {
     private int getMiddleChild(int index){ return items[getMiddleChildIndex(index)]; }
     private int getRightChild(int index){ return items[getRightChildIndex(index)]; }
     private int getParent(int index) { return items[getParentIndex(index)]; }
+
+    public int getSize() {
+        return size;
+    }
 
     private void ensureExtraCapacity(){
         if(size == capacity){
@@ -117,6 +130,15 @@ public class TernaryMaxHeap {
 
     public int peek(){
         return items[0];
+    }
+
+    public int[] toArray(){
+        int[] temp = new int[items.length];
+        for(int i = 0; i < temp.length; i++){
+            temp[i] = items[i];
+        }
+
+        return temp;
     }
 
     public void add(int item){

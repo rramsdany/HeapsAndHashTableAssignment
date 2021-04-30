@@ -3,7 +3,7 @@ package Question3;
 import java.io.*;
 import java.util.*;
 
-public class AppDriver {
+public class GuessingGameQuestion {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // Grab standard input from file:
