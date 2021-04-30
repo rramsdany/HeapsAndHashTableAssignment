@@ -8,7 +8,7 @@ public class GuessingGameQuestion {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         // Grab standard input from file:
         // To run, update the location of the file with the text
-        File file = new File("C:\\Users\\Daniel\\HeapsAndHashTableAssignment\\input.txt");
+        File file = new File("Question1\\input.txt");
         Scanner scanner = new Scanner(file);
         int size = Integer.parseInt(scanner.nextLine());
 
